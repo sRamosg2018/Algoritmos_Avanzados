@@ -2,85 +2,67 @@ package ejercicios;
 
 public class voraces {
 
-	static int[] ts = { 1, 5, 3, 2, 4 };
+	static int[] usuario = { 5, 3, 1, 2, 4};
 
 	public static void main(String[] args) {
 
-		tareas(ordenacionInsercion(ts.clone()), 2);
+		tareas(ordenacionInsercion(usuario), 2);
 
 	}
 
 	public static int tareas(int[] ts, int n) {
-		int tareasPorProcesador = ts.length / n;
 
-		if ((ts.length % n) != 0)
-			tareasPorProcesador++;
+		int[][] tareas = new int[n][2];
 
-		int[][] procesadores = new int[n][tareasPorProcesador];
+		// tareas[indiceProcesador][0]: Guarda la suma total del procesador
+		
+		// tareas[indiceProcesador][1]: Guarda la suma de los números adicionales
+		// a sumar en cada nueva iteración
+		
+		
+		int sumaTotal = 0;
+		int indiceProcesador = 0;
 
-		int indiceTareas = 0;
+		for (int i = 0; i < ts.length;) {
 
-		// Se recorre el array de indices para asignar cada uno de estos valores a su
-		// procesador correspondiente
-		int i = 0;
-		while (i < ts.length) {
-			for (int j = 0; j < n && i < ts.length; j++) {
-				procesadores[j][indiceTareas] = ts[i];
+			if (indiceProcesador < n) {
+				tareas[indiceProcesador][0] += tareas[indiceProcesador][1] + usuario[ts[i]];
+				tareas[indiceProcesador][1] += usuario[ts[i]];
+				indiceProcesador++;
 				i++;
-			}
-			indiceTareas++;
+
+			} else
+				indiceProcesador = 0;
 
 		}
 
-		int suma = sumaTiempos(procesadores, n, tareasPorProcesador);
-		System.out.println("Suma final = " + suma);
+		for (int j = 0; j < n; j++) {
+			sumaTotal += tareas[j][0];
+
+		}
+
+		System.out.println("Suma final = " + sumaTotal);
 
 		return 0;
 
 	}
 
-	public static int[] ordenacionInsercion(int[] array) {
-		int index, aux;
-
-		for (int i = 1; i < array.length; i++) {
-			index = array[i];
-			aux = i - 1;
-			while (aux > 0 && array[aux] > index) {
-				array[aux + 1] = array[aux];
-				aux = aux - 1;
-			}
-			array[aux + 1] = index;
-
+	public static int[] ordenacionInsercion(int[] v) {
+		int[] v2 = new int[v.length];
+		v2[0] = 0;
+		for (int i = 1; i < v.length; i++) {
+			int aux = v[i];
+			int j;
+			for (j = i - 1; j >= 0 && v[v2[j]] > aux; j--)
+				v2[j + 1] = v2[j];
+			v2[j + 1] = i;
 		}
-		return array;
-
-	}
-
-	public static int sumaTiempos(int[][] array, int n, int tareasPorProcesador) {
-
-		int suma = 0;
-		int auxSuma, aux, j; // relativas a cada iteracion del bucle
-
-		for (int i = 0; i < n; i++) {
-
-			aux = 0;
-			auxSuma = 0;
-			j = 0;
-
-			while (j < tareasPorProcesador) {
-				if (array[i][j] > 0) { // Solo las tareas con valor > 0 pueden ser realizadas, algo con tiempo negativo
-										// o 0 no se puede considerar tarea
-					auxSuma += array[i][j] + aux;
-					aux = array[i][j] + aux;
-
-				}
-
-				j++;
-			}
-			suma += auxSuma;
-
+		for (int i = 0; i < v2.length; i++) {
+			System.out.println(v2[i]);
 		}
-		return suma;
+		return v2;
 	}
-
 }
+
+
+
