@@ -2,7 +2,7 @@ package ejercicios;
 
 public class voraces {
 
-	static int[] usuario = { 5, 3, 1, 2, 4};
+	static int[] usuario = { 5, 2, 3, 4, 1 };
 
 	public static void main(String[] args) {
 
@@ -12,32 +12,27 @@ public class voraces {
 
 	public static int tareas(int[] ts, int n) {
 
-		int[][] tareas = new int[n][2];
+		int[] tareas = new int[n];
 
 		// tareas[indiceProcesador][0]: Guarda la suma total del procesador
-		
+
 		// tareas[indiceProcesador][1]: Guarda la suma de los números adicionales
 		// a sumar en cada nueva iteración
-		
-		
+
 		int sumaTotal = 0;
 		int indiceProcesador = 0;
 
 		for (int i = 0; i < ts.length;) {
 
 			if (indiceProcesador < n) {
-				tareas[indiceProcesador][0] += tareas[indiceProcesador][1] + usuario[ts[i]];
-				tareas[indiceProcesador][1] += usuario[ts[i]];
+				tareas[indiceProcesador] += usuario[ts[i]];
+				sumaTotal += tareas[indiceProcesador];
 				indiceProcesador++;
 				i++;
 
-			} else
+			} else {
 				indiceProcesador = 0;
-
-		}
-
-		for (int j = 0; j < n; j++) {
-			sumaTotal += tareas[j][0];
+			}
 
 		}
 
@@ -57,12 +52,7 @@ public class voraces {
 				v2[j + 1] = v2[j];
 			v2[j + 1] = i;
 		}
-		for (int i = 0; i < v2.length; i++) {
-			System.out.println(v2[i]);
-		}
+
 		return v2;
 	}
 }
-
-
-
