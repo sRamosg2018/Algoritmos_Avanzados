@@ -1,3 +1,5 @@
+package ejercicios;
+
 public class voraces {
 
 	static int[] usuario = { 4, 3, 1, 2, 5 };
@@ -11,24 +13,17 @@ public class voraces {
 		int[] arrayIndicesOrdenados = ordenacionInsercion(ts);
 		int[] tareas = new int[n];
 		int sumaTotal = 0;
-		int indiceProcesador = 0;
 
 		for (int i = 0; i < ts.length;) {
 
-			if (indiceProcesador < n) {
-				tareas[indiceProcesador] += ts[arrayIndicesOrdenados[i]];
-				sumaTotal += tareas[indiceProcesador];
-				indiceProcesador++;
-				i++;
-
-			} else
-				indiceProcesador = 0;
-
+			tareas[i % n] += ts[arrayIndicesOrdenados[i]];
+			sumaTotal += tareas[i % n];
+			i++;
 		}
 
 		System.out.println("Suma final = " + sumaTotal);
 
-		return 0;
+		return sumaTotal;
 
 	}
 
